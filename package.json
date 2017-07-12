@@ -6,9 +6,11 @@
     "start": "node main.js"
   },
   "dependencies": {
+    "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
     "gm": "~1.21.1",
     "levelgraph": "^2.0.1",
     "levelup": "^1.3.8",
+    "node-gettext": "^2.0.0",
     "posix": "^4.1.1",
     "q": "^1.5.0",
     "sqlite3": "^3.1.8"

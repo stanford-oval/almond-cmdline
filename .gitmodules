@@ -15,4 +15,4 @@
 	url = https://github.com/Stanford-Mobisocial-IoT-Lab/Sabrina.git
 [submodule "node_modules/omlib"]
 	path = node_modules/omlib
-	url = https://github.com/Stanford-Mobisocial-IoT-Lab/omclient
+	url = https://github.com/Stanford-Mobisocial-IoT-Lab/omclient.git

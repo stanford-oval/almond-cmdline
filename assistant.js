@@ -13,6 +13,8 @@ const path = require('path');
 const readline = require('readline');
 const posix = require('posix');
 
+const Config = require('./config');
+
 const Almond = require('almond');
 
 class LocalUser {
@@ -39,7 +41,7 @@ class CommandLineDelegate {
     }
 
     sendRDL(rdl) {
-        console.log('>> rdl: ' + rdl.displayTitle + ' ' + rdl.callback);
+        console.log('>> rdl: ' + rdl.displayTitle + ' ' + (rdl.callback || rdl.webCallback));
     }
 
     sendChoice(idx, what, title, text) {
@@ -71,15 +73,16 @@ module.exports = class Assistant {
         let delegate = new CommandLineDelegate(rl);
 
         this._conversation = new Almond(engine, 'local-cmdline', user, delegate,
-            { debug: false, showWelcome: true });
+            { sempreUrl: process.env.SEMPRE_URL || Config.SEMPRE_URL,
+              debug: false, showWelcome: true });
     }
 
-    notifyAll(data) {
-        this._conversation.notify(data);
+    notifyAll(...data) {
+        this._conversation.notify(...data);
     }
 
-    notifyErrorAll(data) {
-        this._conversation.notifyErrorAll(data);
+    notifyErrorAll(...data) {
+        this._conversation.notifyErrorAll(...data);
     }
 
     getConversation(id) {
@@ -99,6 +102,7 @@ module.exports = class Assistant {
         console.log('\\q : quit');
         console.log('\\r <json> : send json to Almond');
         console.log('\\c <number> : make a choice');
+        console.log('\\t <code> : send ThingTalk to Almond');
         console.log('\\a list : list apps');
         console.log('\\a stop <uuid> : stop app');
         console.log('\\d list : list devices');
@@ -147,6 +151,8 @@ module.exports = class Assistant {
                     return this._help();
                 else if (line[1] === 'r')
                     return this._conversation.handleParsedCommand(line.substr(3));
+                else if (line[1] === 't')
+                    return this._conversation.handleThingTalk(line.substr(3));
                 else if (line[1] === 'c')
                     return this._conversation.handleParsedCommand(JSON.stringify({ answer: { type: "Choice", value: parseInt(line.substr(3)) }}));
                 else if (line[1] === 'a')

@@ -14,6 +14,8 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+const Config = require('./config');
+
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
 
@@ -21,7 +23,7 @@ function main() {
     let platform = require('./platform');
     platform.init();
 
-    let engine = new Engine(platform);
+    let engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
 
     let _ad = new AssistantDispatcher(engine);
     platform.setAssistant(_ad);

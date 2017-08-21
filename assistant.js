@@ -82,7 +82,7 @@ module.exports = class Assistant {
     }
 
     notifyErrorAll(...data) {
-        this._conversation.notifyErrorAll(...data);
+        this._conversation.notifyError(...data);
     }
 
     getConversation(id) {

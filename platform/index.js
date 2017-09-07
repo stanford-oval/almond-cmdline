@@ -320,15 +320,10 @@ module.exports = {
         return true;
     },
 
-    // Return a server/port URL that can be used to refer to this
-    // installation. This is primarily used for OAuth redirects, and
-    // so must match what the upstream services accept.
-    _setOrigin(origin) {
-        this._origin = origin;
-    },
-
     getOrigin: function() {
-        return this._origin;
+        // pretend to be a local thingpedia server
+        // the user is expected to copy-paste oauth urls manually
+        return 'http://127.0.0.1:8080';
     },
 
     getCloudId() {

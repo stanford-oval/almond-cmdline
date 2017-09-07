@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const posix = require('posix');
+const Url = require('url');
 
 const Config = require('./config');
 
@@ -75,6 +76,9 @@ module.exports = class Assistant {
         this._conversation = new Almond(engine, 'local-cmdline', user, delegate,
             { sempreUrl: process.env.SEMPRE_URL || Config.SEMPRE_URL,
               debug: false, showWelcome: true });
+
+        this._oauthKind = null;
+        this._oauthSession = {};
     }
 
     notifyAll(...data) {
@@ -109,6 +113,8 @@ module.exports = class Assistant {
         console.log('\\a list : list apps');
         console.log('\\a stop <uuid> : stop app');
         console.log('\\d list : list devices');
+        console.log('\\d start-oauth <kind> : start oauth');
+        console.log('\\d complete-oauth <url> : finish oauth');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
     }
@@ -149,6 +155,23 @@ module.exports = class Assistant {
             this._engine.devices.getAllDevices().forEach((dev) => {
                 console.log('- ' + dev.uniqueId + ' (' + dev.kind +') ' + dev.name + ': ' + dev.description);
             });
+        } else if (cmd === 'start-oauth' || cmd === 'start-oauth2') {
+            this._oauthKind = param;
+            return this._engine.devices.factory.runOAuth2(param, null).then(([redirect, session]) => {
+                this._oauthSession = session;
+                console.log(redirect);
+            });
+        } else if (cmd === 'complete-oauth' || cmd === 'complete-oauth2') {
+            let req = {
+                httpVersion: '1.0',
+                headers: [],
+                rawHeaders: [],
+                method: 'GET',
+                url: param,
+                query: Url.parse(param, true).query,
+                session: this._oauthSession
+            };
+            return this._engine.devices.factory.runOAuth2(this._oauthKind, req);
         }
     }
 

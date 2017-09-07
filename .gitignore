@@ -1,6 +1,7 @@
 *~
 
 home/
+home-*/
 node_modules/*
 !node_modules/thingtalk/
 !node_modules/thingpedia/

@@ -83,6 +83,12 @@ function getUserCacheDir() {
         return process.env.XDG_CACHE_HOME;
     return os.homedir() + '/.cache';
 }
+function getFilesDir() {
+    if (process.env.THINGENGINE_HOME)
+        return path.resolve(process.env.THINGENGINE_HOME);
+    else
+        return path.resolve(getUserConfigDir(), 'almond-cmdline');
+}
 
 module.exports = {
     // Initialize the platform code
@@ -92,7 +98,7 @@ module.exports = {
 
         this._gettext = new Gettext();
 
-        this._filesDir = getUserConfigDir() + '/almond-cmdline';
+        this._filesDir = getFilesDir();
         safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
         // normalize this._locale to something that Intl can grok

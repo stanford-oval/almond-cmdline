@@ -103,11 +103,30 @@ module.exports = class Assistant {
         console.log('\\r <json> : send json to Almond');
         console.log('\\c <number> : make a choice');
         console.log('\\t <code> : send ThingTalk to Almond');
+        console.log('\\m self : print own messaging identities');
+        console.log('\\m identity <identity> : lookup messaging identity, save to contacts');
+        console.log('\\m search <name> : list contacts by name');
         console.log('\\a list : list apps');
         console.log('\\a stop <uuid> : stop app');
         console.log('\\d list : list devices');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
+    }
+
+    _runMessagingCommand(cmd, param) {
+        if (cmd === 'self') {
+            for (let identity of this._engine.messaging.getIdentities())
+                console.log(identity);
+        } else if (cmd === 'identity') {
+            return this._engine.messaging.getAccountForIdentity(param).then((account) => {
+                console.log(account);
+            });
+        } else if (cmd === 'search') {
+            return this._engine.messaging.searchAccountByName(param).then((accounts) => {
+                for (let account of accounts)
+                    console.log(`${account.name}: ${account.account}`);
+            });
+        }
     }
 
     _runAppCommand(cmd, param) {
@@ -159,6 +178,8 @@ module.exports = class Assistant {
                     return this._runAppCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'd')
                     return this._runDeviceCommand(...line.substr(3).split(' '));
+                else if (line[1] === 'm')
+                    return this._runMessagingCommand(...line.substr(3).split(' '));
                 else
                     console.log('Unknown command ' + line[1]);
             } else if (line.trim()) {

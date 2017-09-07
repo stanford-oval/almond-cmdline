@@ -6,6 +6,7 @@
     "start": "node main.js"
   },
   "dependencies": {
+    "cvc4": "^0.1.1",
     "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
     "gm": "~1.21.1",
     "levelgraph": "^2.0.1",

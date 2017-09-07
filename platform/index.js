@@ -15,6 +15,7 @@ const path = require('path');
 const child_process = require('child_process');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
+const CVC4Solver = require('cvc4');
 
 const prefs = require('thingengine-core/lib/util/prefs');
 
@@ -133,13 +134,7 @@ module.exports = {
     // (eg we don't need discovery on the cloud, and we don't need graphdb,
     // messaging or the apps on the phone client)
     hasFeature: function(feature) {
-        switch(feature) {
-        case 'ui':
-            return false;
-
-        default:
-            return true;
-        }
+        return true;
     },
 
     // Check if this platform has the required capability
@@ -183,6 +178,9 @@ module.exports = {
         case 'gettext':
             return true;
 
+        case 'smt-solver':
+            return true;
+
         default:
             return false;
         }
@@ -206,6 +204,9 @@ module.exports = {
             if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);
             return this._btApi;
+
+        case 'smt-solver':
+            return CVC4Solver;
 
 /*
         case 'notify-api':

@@ -115,8 +115,20 @@ module.exports = class Assistant {
         console.log('\\d list : list devices');
         console.log('\\d start-oauth <kind> : start oauth');
         console.log('\\d complete-oauth <url> : finish oauth');
+        console.log('\\p list : list permissions');
+        console.log('\\p revoke <uuid> : revoke permissions');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
+    }
+
+    _runPermissionCommand(cmd, param) {
+        if (cmd === 'list') {
+            for (let permission of this._engine.permissions.getAllPermissions()) {
+                console.log('- ' + permission.uniqueId + ': ' + permission.description);
+            }
+        } else if (cmd === 'revoke') {
+            this._engine.permissions.removePermission(param);
+        }
     }
 
     _runMessagingCommand(cmd, param) {
@@ -203,6 +215,8 @@ module.exports = class Assistant {
                     return this._runDeviceCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'm')
                     return this._runMessagingCommand(...line.substr(3).split(' '));
+                else if (line[1] === 'p')
+                    return this._runPermissionCommand(...line.substr(3).split(' '));
                 else
                     console.log('Unknown command ' + line[1]);
             } else if (line.trim()) {

@@ -124,7 +124,7 @@ module.exports = class Assistant {
     _runPermissionCommand(cmd, param) {
         if (cmd === 'list') {
             for (let permission of this._engine.permissions.getAllPermissions()) {
-                console.log('- ' + permission.uniqueId + ': ' + permission.description);
+                console.log('- ' + permission.uniqueId + ': ' + permission.code + ' : ' + permission.description);
             }
         } else if (cmd === 'revoke') {
             this._engine.permissions.removePermission(param);

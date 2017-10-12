@@ -96,9 +96,9 @@ module.exports = class Assistant {
     _quit() {
         console.log('Bye\n');
         this._rl.close();
-        this._engine.close().finally(() => {
+        this._engine.close().then(() => {
             this._engine.platform.exit();
-        });
+        }).done();
     }
 
     _help() {

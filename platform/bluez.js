@@ -69,6 +69,10 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
             });
     }
 
+    stop() {
+        return Q();
+    }
+
     startDiscovery() {
         if (this._defaultAdapter === null)
             return;

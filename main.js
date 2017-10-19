@@ -20,9 +20,7 @@ const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
 
 function main() {
-    let platform = require('./platform');
-    platform.init();
-
+    let platform = require('./platform').newInstance();
     let engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
 
     let _ad = new AssistantDispatcher(engine);

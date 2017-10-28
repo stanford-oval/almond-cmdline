@@ -140,11 +140,13 @@ const INSTALL_LATENCY_TESTS = [
 
 function installLatencyTest(engine1, engine2, sz) {
     let prog = ThingTalk.Grammar.parse(`now => @org.thingpedia.builtin.test.eat_data(data="");`);
-    prog.rules[0].actions[0].in_params[0].value.vallue = genData(sz);
+    prog.rules[0].actions[0].in_params[0].value.value = genData(sz);
+    let code = ThingTalk.Ast.prettyprint(prog, true).trim();
 
     return repeat(3, 10000, (i) => {
         let uniqueId = uuid.v4();
 
+        console.log(`Latency test begin, size ${code.length}, iteration ${i+1}`);
         logfile.write(`${Date.now()}\ttest-begin\tlatency ${code.length} ${i+1}/3\n`);
         return Q.Promise((resolve, reject) => {
 
@@ -166,7 +168,7 @@ function installLatencyTest(engine1, engine2, sz) {
 }
 
 const ROUND_TRIP_TIME_TEST = [
-    10//, 50, 100, 200, 400, 800, 1600, 3200
+    10, 50, 100, 200, 400, 800, 1600, 3200
 ]
 
 function roundTripTimeTest(engine1, engine2, sz) {
@@ -188,6 +190,7 @@ function roundTripTimeTest(engine1, engine2, sz) {
             prog.principal = null;
             let uniqueId = uuid.v4();
 
+            console.log(`RTT test begin, size ${sz}, iteration ${i+1}`);
             logfile.write(`${Date.now()}\ttest-begin\trtt ${sz} ${i+1}/3\n`);
             return Q.Promise((resolve, reject) => {
 
@@ -221,7 +224,7 @@ function main() {
         logfile.write(`${Date.now()}\tbegin\n`);
 
         return Q.try(() => {
-            //return promiseLoop(INSTALL_LATENCY_TESTS, (test) => installLatencyTest(engine1, engine2, test));
+            return promiseLoop(INSTALL_LATENCY_TESTS, (test) => installLatencyTest(engine1, engine2, test));
         }).then(() => {
             return promiseLoop(ROUND_TRIP_TIME_TEST, (test) => roundTripTimeTest(engine1, engine2, test));
         }).then(() => {

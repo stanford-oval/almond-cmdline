@@ -1,22 +1,47 @@
-# ThingEngine
+# Almond
 
-## Help the World Connect the Dots
+## End User Programmable Virtual Assistants
 
-ThingEngine is the workhorse behind ThingPedia, the open source platform for IoT rules
-that you can execute anywhere you want.
+This repository contains the command line version of Almond, the end user programmable
+assistant.
 
-ThingEngine comes in many form:
+It is a full featured version, although it is mainly useful for development
+and testing.
 
-- As a phone app, for Android
-- As an installable app for a home server
-- As a web service hosted at <https://thingengine.stanford.edu>
-
-This module contains a command line version of ThingEngine, which is mainly
-useful for development and testing. Users should probably look at the
-web service or the pre-built Android app.
-
-ThingEngine is part of Open Thing Platform, a research project led by
+Almond is part of Open Thing Platform, a research project led by
 prof. Monica Lam, from Stanford University.  You can find more
-information at <http://thingengine.stanford.edu/about>. User
-documentation is available in
-[thingengine-core](https://github.com/Stanford-IoT-Lab/thingengine-core).
+information at <https://thingpedia.stanford.edu/about>.
+
+## Installation
+
+The code depends on nodejs (>= 6.10), cvc4 (any version, although >= 1.5 is recommended).
+Acquire the dependencies with:
+
+```git submodule update --init --recursive```
+
+Then you can install the dependencies with a standard `npm install`.
+
+**NOTE**: npm >= 5 is known NOT to work. For best results, use the npm that came with node 6.10 LTS.
+
+## Usage
+
+Start Almond with `node ./main.js`
+
+Follow the instructions to complete set up.
+You can then type a sentence to instruct your virtual assistant.
+
+Special commands are available using `\`. For the full list, use `\?`.
+To quit, use `\q` or Ctrl-D (EOF).
+
+### Setting up OAuth-based devices
+
+To set up a device that uses OAuth, say
+
+```\d start-oauth <kind>```
+
+where `<kind>` is the identifier of the device you want, e.g. `\d start-oauth com.twitter`.
+
+Copy the resulting URL in your browser and authenticate. The browser will redirect you
+to a broken page under `http://127.0.0.1:3000`. Copy that and type:
+
+```\d complete-oauth <url>```

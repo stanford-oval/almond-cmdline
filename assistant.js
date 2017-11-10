@@ -117,6 +117,7 @@ module.exports = class Assistant {
         console.log('\\d complete-oauth <url> : finish oauth');
         console.log('\\p list : list permissions');
         console.log('\\p revoke <uuid> : revoke permissions');
+        console.log('\\l: test the log system');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
     }
@@ -187,6 +188,33 @@ module.exports = class Assistant {
         }
     }
 
+    _testLog() {
+        this._engine.ibase.query('wind_speed', null, [{field: 'weather', op: '$eq', value: 'Partly cloud'}]).then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getCount([{field: 'wind_speed', op: '$gt', value: 1}]).then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getMax('wind_speed').then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getMin('wind_speed').then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getSum('wind_speed').then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getAvg('wind_speed').then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getArgmax('wind_speed', 'location').then((res) => {
+            console.log(res);
+        });
+        this._engine.ibase.getArgmin('wind_speed', 'location').then((res) => {
+            console.log(res);
+        });
+    }
+
     interact() {
         this._conversation.start();
 
@@ -217,6 +245,8 @@ module.exports = class Assistant {
                     return this._runMessagingCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'p')
                     return this._runPermissionCommand(...line.substr(3).split(' '));
+                else if (line[1] === 'l')
+                    return this._testLog();
                 else
                     console.log('Unknown command ' + line[1]);
             } else if (line.trim()) {

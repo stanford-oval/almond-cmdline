@@ -189,28 +189,28 @@ module.exports = class Assistant {
     }
 
     _testLog() {
-        this._engine.ibase.query('wind_speed', null, [{field: 'weather', op: '$eq', value: 'Partly cloud'}]).then((res) => {
+        this._engine.ibase.query(['wind_speed', 'location'], [{field: 'weather', op: '$eq', value: 'Partly cloud'}]).then((res) => {
             console.log(res);
         });
         this._engine.ibase.getCount([{field: 'wind_speed', op: '$gt', value: 1}]).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getMax('wind_speed').then((res) => {
+        this._engine.ibase.getMax('wind_speed', []).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getMin('wind_speed').then((res) => {
+        this._engine.ibase.getMin('wind_speed', []).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getSum('wind_speed').then((res) => {
+        this._engine.ibase.getSum('wind_speed', []).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getAvg('wind_speed').then((res) => {
+        this._engine.ibase.getAvg('wind_speed', []).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getArgmax('wind_speed', 'location').then((res) => {
+        this._engine.ibase.getArgmax(['location', 'weather'], 'wind_speed', []).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getArgmin('wind_speed', 'location').then((res) => {
+        this._engine.ibase.getArgmin(['location', 'weather'], 'wind_speed', []).then((res) => {
             console.log(res);
         });
     }

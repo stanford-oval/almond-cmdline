@@ -189,10 +189,10 @@ module.exports = class Assistant {
     }
 
     _testLog() {
-        this._engine.ibase.query(['wind_speed', 'location'], [{field: 'weather', op: '$eq', value: 'Partly cloud'}]).then((res) => {
+        this._engine.ibase.query(['wind_speed', 'location'], [{name: 'weather', op: '=', value: 'Partly cloud'}]).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getCount([{field: 'wind_speed', op: '$gt', value: 1}]).then((res) => {
+        this._engine.ibase.getCount([{name: 'wind_speed', op: '>', value: 1}]).then((res) => {
             console.log(res);
         });
         this._engine.ibase.getMax('wind_speed', []).then((res) => {

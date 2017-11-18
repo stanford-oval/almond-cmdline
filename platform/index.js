@@ -304,10 +304,6 @@ class Platform {
         return this._filesDir + '/rdf.db';
     }
 
-    getiBase() {
-        return this._filesDir + '/ibase.db';
-    }
-
     // Stop the main loop and exit
     // (In Android, this only stops the node.js thread)
     // This function should be called by the platform integration

@@ -17,6 +17,7 @@ const Url = require('url');
 const Config = require('./config');
 
 const Almond = require('almond');
+const ThingTalk = require('thingtalk');
 
 class LocalUser {
     constructor() {
@@ -188,29 +189,22 @@ module.exports = class Assistant {
         }
     }
 
-    _testLog() {
-        this._engine.ibase.query(['wind_speed', 'location'], [{name: 'weather', op: '=', value: 'Partly cloud'}]).then((res) => {
+    _testMemory() {
+        let sunny = ThingTalk.Ast.Value.String('Sun');
+        let filter = ThingTalk.Ast.BooleanExpression.Atom(ThingTalk.Ast.Filter('weather', '=', sunny));
+        let max = ThingTalk.Ast.Aggregation('max', 'wind_speed', null);
+        let argmax = ThingTalk.Ast.Aggregation('argmax', 'wind_speed', null);
+        let table = 'weatherapi_current';
+        let cols = ['location', 'weather', 'wind_speed'];
+        let version = null;
+        this._engine.memory.getAll(table, version);
+        this._engine.memory.get(table, version, cols, filter, null).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getCount([{name: 'wind_speed', op: '>', value: 1}]).then((res) => {
+        this._engine.memory.get(table, version, cols, filter, max).then((res) => {
             console.log(res);
         });
-        this._engine.ibase.getMax('wind_speed', []).then((res) => {
-            console.log(res);
-        });
-        this._engine.ibase.getMin('wind_speed', []).then((res) => {
-            console.log(res);
-        });
-        this._engine.ibase.getSum('wind_speed', []).then((res) => {
-            console.log(res);
-        });
-        this._engine.ibase.getAvg('wind_speed', []).then((res) => {
-            console.log(res);
-        });
-        this._engine.ibase.getArgmax(['location', 'weather'], 'wind_speed', []).then((res) => {
-            console.log(res);
-        });
-        this._engine.ibase.getArgmin(['location', 'weather'], 'wind_speed', []).then((res) => {
+        this._engine.memory.get(table, version, cols, filter, argmax).then((res) => {
             console.log(res);
         });
     }
@@ -246,7 +240,7 @@ module.exports = class Assistant {
                 else if (line[1] === 'p')
                     return this._runPermissionCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'l')
-                    return this._testLog();
+                    return this._testMemory();
                 else
                     console.log('Unknown command ' + line[1]);
             } else if (line.trim()) {

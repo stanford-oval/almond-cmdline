@@ -112,7 +112,7 @@ module.exports = class Assistant {
         console.log('\\m identity <identity> : lookup messaging identity, save to contacts');
         console.log('\\m search <name> : list contacts by name');
         console.log('\\a list : list apps');
-        console.log('\\a stop <uuid> : stop app');
+        console.log('\\a stop [<uuid> | all] : stop app');
         console.log('\\d list : list devices');
         console.log('\\d start-oauth <kind> : start oauth');
         console.log('\\d complete-oauth <url> : finish oauth');
@@ -155,11 +155,16 @@ module.exports = class Assistant {
                 console.log('- ' + app.uniqueId + ' ' + app.name + ': ' + app.description);
             });
         } else if (cmd === 'stop') {
-            var app = this._engine.apps.getApp(param);
-            if (!app) {
-                console.log('No app with ID ' + param);
+            if (param === 'all') {
+                for (let app of this._engine.apps.getAllApps())
+                    this._engine.apps.removeApp(app);
             } else {
-                this._engine.apps.removeApp(app);
+                var app = this._engine.apps.getApp(param);
+                if (!app) {
+                    console.log('No app with ID ' + param);
+                } else {
+                    this._engine.apps.removeApp(app);
+                }
             }
         }
     }

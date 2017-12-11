@@ -1,5 +1,6 @@
 *~
 
+.idea/*
 home/
 home-*/
 node_modules/*

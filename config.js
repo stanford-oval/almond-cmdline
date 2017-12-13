@@ -6,5 +6,5 @@
 //
 // See COPYING for details
 
-module.exports.THINGPEDIA_URL = 'https://parmesan.stanford.edu/thingpedia';
+module.exports.THINGPEDIA_URL = 'https://crowdie.stanford.edu/thingpedia';
 module.exports.SEMPRE_URL = 'https://parmesan.stanford.edu/almondnn';

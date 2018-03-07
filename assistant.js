@@ -9,9 +9,6 @@
 // See COPYING for details
 "use strict";
 
-const Q = require('q');
-const fs = require('fs');
-const path = require('path');
 const readline = require('readline');
 const posix = require('posix');
 const Url = require('url');
@@ -107,7 +104,9 @@ module.exports = class Assistant {
     _help() {
         console.log('Available commands:');
         console.log('\\q : quit');
-        console.log('\\r <json> : send json to Almond');
+        console.log('\\r <json-or-nn-tt> : send parsed command to Almond');
+        console.log('\\y : answer yes');
+        console.log('\\n : answer no');
         console.log('\\c <number> : make a choice');
         console.log('\\t <code> : send ThingTalk to Almond');
         console.log('\\m self : print own messaging identities');
@@ -127,9 +126,8 @@ module.exports = class Assistant {
 
     _runPermissionCommand(cmd, param) {
         if (cmd === 'list') {
-            for (let permission of this._engine.permissions.getAllPermissions()) {
+            for (let permission of this._engine.permissions.getAllPermissions())
                 console.log('- ' + permission.uniqueId + ': ' + permission.code + ' : ' + permission.description);
-            }
         } else if (cmd === 'revoke') {
             this._engine.permissions.removePermission(param);
         }
@@ -149,6 +147,8 @@ module.exports = class Assistant {
                     console.log(`${account.name}: ${account.account}`);
             });
         }
+
+        return Promise.resolve();
     }
 
     _runAppCommand(cmd, param) {
@@ -162,11 +162,10 @@ module.exports = class Assistant {
                     this._engine.apps.removeApp(app);
             } else {
                 var app = this._engine.apps.getApp(param);
-                if (!app) {
+                if (!app)
                     console.log('No app with ID ' + param);
-                } else {
+                else
                     this._engine.apps.removeApp(app);
-                }
             }
         }
     }
@@ -194,6 +193,8 @@ module.exports = class Assistant {
             };
             return this._engine.devices.factory.runOAuth2(this._oauthKind, req);
         }
+
+        return Promise.resolve();
     }
 
     _testMemory() {
@@ -225,19 +226,31 @@ module.exports = class Assistant {
         this._rl.prompt();
     }
 
+    _handleSlashR(line) {
+        line = line.trim();
+        if (line.startsWith('{'))
+            return this._conversation.handleParsedCommand(JSON.parse(line));
+        else
+            return this._conversation.handleParsedCommand({ code: line.split(' '), entities: {} });
+    }
+
     _onLine(line) {
-        Q.try(() => {
+        Promise.resolve().then(() => {
             if (line[0] === '\\') {
                 if (line[1] === 'q')
                     return this._quit();
                 else if (line[1] === '?' || line === 'h')
                     return this._help();
                 else if (line[1] === 'r')
-                    return this._conversation.handleParsedCommand(line.substr(3));
+                    return this._handleSlashR(line.substr(3));
                 else if (line[1] === 't')
                     return this._conversation.handleThingTalk(line.substr(3));
                 else if (line[1] === 'c')
-                    return this._conversation.handleParsedCommand(JSON.stringify({ answer: { type: "Choice", value: parseInt(line.substr(3)) }}));
+                    return this._conversation.handleParsedCommand({ code: ['bookkeeping', 'choice', line.substr(3)], entities: {} });
+                else if (line[1] === 'y')
+                    return this._conversation.handleParsedCommand({ code: ['bookkeeping', 'special', 'special:yes'], entities: {} });
+                else if (line[1] === 'n')
+                    return this._conversation.handleParsedCommand({ code: ['bookkeeping', 'special', 'special:no'], entities: {} });
                 else if (line[1] === 'a')
                     return this._runAppCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'd')
@@ -253,8 +266,11 @@ module.exports = class Assistant {
             } else if (line.trim()) {
                 return this._conversation.handleCommand(line);
             }
+
+            // quiet warning
+            return Promise.resolve();
         }).then(() => {
             this._rl.prompt();
-        }).done();
+        });
     }
-}
+};

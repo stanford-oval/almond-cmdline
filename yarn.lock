@@ -45,8 +45,6 @@ ajv@^5.1.0:
   dependencies:
     adt "~0.7.2"
     q "~1.4.1"
-    thingpedia "github:Stanford-Mobisocial-IoT-Lab/thingpedia-api#wip/new-thingpedia"
-    thingtalk "github:Stanford-Mobisocial-IoT-Lab/ThingTalk#wip/new-thingtalk"
     uuid "^3.1.0"
 
 another-json@^0.2.0:
@@ -1517,7 +1515,7 @@ split@0.3:
   dependencies:
     through "2"
 
-sqlite3@^3.1.1, sqlite3@^3.1.8:
+sqlite3@^3.1.1, sqlite3@^3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-3.1.13.tgz#d990a05627392768de6278bafd1a31fdfe907dd9"
   dependencies:
@@ -1609,7 +1607,7 @@ tar@^2.2.1:
 
 "thingengine-core@github:Stanford-Mobisocial-IoT-Lab/thingengine-core#ibase":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/bf44f7714f608987d635d4c40c6a3a187dc08690"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/2e9748aedc4260b37439f87149def523217a6850"
   dependencies:
     adt "^0.7.2"
     babel-runtime "^6.26.0"
@@ -1617,9 +1615,11 @@ tar@^2.2.1:
     ip "^1.1.5"
     matrix-js-sdk "^0.8.4"
     olm "https://matrix.org/packages/npm/olm/olm-2.2.2.tgz"
+    omlib "github:Stanford-Mobisocial-IoT-Lab/omclient"
     pouchdb-adapter-node-websql "^6.3.4"
     pouchdb-find "^6.3.4"
     q "^1.5.0"
+    sqlite3 "^3.1.13"
     tmp "0.0.31"
     uuid "^3.1.0"
     websql "^0.4.4"

@@ -1,11 +1,6 @@
 *~
 
+.idea/*
 home/
 home-*/
-node_modules/*
-!node_modules/thingtalk/
-!node_modules/thingpedia/
-!node_modules/thingpedia-discovery/
-!node_modules/thingengine-core/
-!node_modules/almond/
-!node_modules/omlib/
+node_modules/

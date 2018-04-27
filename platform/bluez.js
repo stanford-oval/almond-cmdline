@@ -54,7 +54,6 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
         return Q.ninvoke(this._systemBus, 'getInterface',
                          BLUEZ_SERVICE, BLUEZ_MANAGER_PATH, OBJECT_MANAGER_INTERFACE)
             .then(function(objmanager) {
-                console.log('Obtained BlueZ object manager');
 
                 this._objectManager = objmanager;
 
@@ -67,7 +66,7 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
                     this._interfacesAdded(object[0], object[1]);
                 }, this);
             }.bind(this)).catch(function(e) {
-                console.log('Failed to start BlueZ service: ' + e.message);
+                console.error('Failed to start BlueZ service: ' + e.message);
             });
     }
 
@@ -95,8 +94,6 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
     }
 
     _interfacesAdded(objectpath, interfaces) {
-        console.log('BlueZ interface added at ' + objectpath);
-
         if (interfaces.some(function(iface) { return iface[0] === BLUEZ_ADAPTER_INTERFACE; }))
             this._adapterAdded(objectpath);
         if (interfaces.some(function(iface) { return iface[0] === BLUEZ_DEVICE_INTERFACE; }))
@@ -104,8 +101,6 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
     }
 
     _interfacesRemoved(objectpath) {
-        console.log('BlueZ interface removed at ' + objectpath);
-
         if (this._defaultAdapter !== null &&
             this._defaultAdapter.name === objectpath) {
             this._defaultAdapter = null;
@@ -126,8 +121,6 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
     }
 
     _deviceAdded(objectpath) {
-        console.log('Found BlueZ device at ' + objectpath);
-
         Q.ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath)
             .then(function(object) {
                 object.as(PROPERTY_INTERFACE).on('PropertiesChanged', function() {
@@ -175,8 +168,6 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
     _tryGetDefaultAdapter(objectpath) {
         return Q.ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath)
             .then(function(object) {
-                console.log('Obtained default BlueZ adapter at ' + objectpath);
-
                 this._defaultAdapter = object;
 
                 object.as(PROPERTY_INTERFACE).on('PropertiesChanged', function() {

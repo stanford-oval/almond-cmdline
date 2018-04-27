@@ -32,6 +32,9 @@ function main() {
         return engine.open();
     }).then(function() {
         return _ad.interact();
+    }).catch((e) => {
+        console.error('Error during initialization: ' + e);
+        throw e;
     }).done();
 }
 

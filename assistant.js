@@ -54,7 +54,7 @@ class CommandLineDelegate {
     }
 
     sendButton(title, json) {
-        console.log('>> button: ' + title + ' ' + json);
+        console.log('>> button: ' + title + ' ' + JSON.stringify(json));
     }
 
     sendAskSpecial(what) {

@@ -41,10 +41,12 @@ ajv@^5.1.0:
 
 "almond@github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent#wip/ibase":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/6b8aa379b5b1fa54806ad05db06e58855ce3d0ea"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/efff43f6dccf8f08dfb7894059f5e15fbfa5e715"
   dependencies:
     adt "~0.7.2"
     q "~1.4.1"
+    thingpedia "github:Stanford-Mobisocial-IoT-Lab/thingpedia-api#wip/new-thingpedia"
+    thingtalk "github:Stanford-Mobisocial-IoT-Lab/ThingTalk#wip/new-thingtalk"
     uuid "^3.1.0"
 
 another-json@^0.2.0:
@@ -1645,7 +1647,7 @@ tar@^2.2.1:
 
 "thingtalk@github:Stanford-Mobisocial-IoT-Lab/ThingTalk#wip/new-thingtalk":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/5fb52c68648a9be40cdc66f9a2e93803e06a9c04"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/f6baabe3cc4279c8e90db6cfb1843b7ac9602113"
   dependencies:
     adt "~0.7.2"
     byline "^5.0.0"

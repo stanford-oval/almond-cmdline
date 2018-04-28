@@ -11,10 +11,7 @@
 
 const Q = require('q');
 Q.longStackSupport = true;
-
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+process.on('unhandledRejection', (up) => { throw up; });
 
 const Config = require('./config');
 
@@ -28,14 +25,14 @@ function main() {
     let _ad = new AssistantDispatcher(engine);
     platform.setAssistant(_ad);
 
-    Q.try(function() {
+    Promise.resolve().then(() => {
         return engine.open();
-    }).then(function() {
+    }).then(() => {
         return _ad.interact();
     }).catch((e) => {
         console.error('Error during initialization: ' + e);
         throw e;
-    }).done();
+    });
 }
 
 main();

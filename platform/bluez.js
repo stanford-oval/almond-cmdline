@@ -7,14 +7,13 @@
 // Author: Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
 // Server platform implementation of Bluetooth API, using BlueZ
 // over DBus
 
 const Q = require('q');
 const events = require('events');
-const fs = require('fs');
-const dbus = require('dbus-native');
 
 const BLUEZ_SERVICE = 'org.bluez';
 const BLUEZ_MANAGER_PATH = '/';

@@ -98,7 +98,7 @@ module.exports = class Assistant {
         this._rl.close();
         this._engine.close().then(() => {
             this._engine.platform.exit();
-        }).done();
+        });
     }
 
     _help() {

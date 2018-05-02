@@ -35,7 +35,7 @@ ajv@^5.1.0:
 
 "almond@github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/8056dc2ed0c6a9639551bcfd19aec3004f4dcebf"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/ee4a1977857df487b9bac73b25d3f4c9c48dd7b3"
   dependencies:
     adt "~0.7.2"
     consumer-queue "^1.0.0"

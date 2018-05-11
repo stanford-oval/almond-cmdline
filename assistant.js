@@ -119,6 +119,8 @@ module.exports = class Assistant {
         console.log('\\d complete-oauth <url> : finish oauth');
         console.log('\\p list : list permissions');
         console.log('\\p revoke <uuid> : revoke permissions');
+        console.log('\\= <pref> : show a preference value');
+        console.log('\\= <pref> <value> : set a preference value');
         console.log('\\l: test the log system');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
@@ -168,6 +170,14 @@ module.exports = class Assistant {
                     this._engine.apps.removeApp(app);
             }
         }
+    }
+
+    _runPrefCommand(param, value) {
+        const prefs = this._engine.platform.getSharedPreferences();
+        if (value)
+            console.log(prefs.set(param, JSON.parse(value)) ? "ok" : "failed to set");
+        else
+            console.log(prefs.get(param));
     }
 
     _runDeviceCommand(cmd, param) {
@@ -261,6 +271,8 @@ module.exports = class Assistant {
                     return this._runPermissionCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'l')
                     return this._testMemory();
+                else if (line[1] === '=')
+                    return this._runPrefCommand(...line.substr(3).split(' '));
                 else
                     console.log('Unknown command ' + line[1]);
             } else if (line.trim()) {

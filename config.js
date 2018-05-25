@@ -8,5 +8,5 @@
 //
 // See COPYING for details
 
-module.exports.THINGPEDIA_URL = 'https://crowdie.stanford.edu/thingpedia';
+module.exports.THINGPEDIA_URL = 'https://thingpedia.stanford.edu/thingpedia';
 module.exports.SEMPRE_URL = 'https://almond-nl.stanford.edu';

@@ -15,7 +15,7 @@ const Url = require('url');
 
 const Config = require('./config');
 
-const Almond = require('almond');
+const Almond = require('almond-dialog-agent');
 const ThingTalk = require('thingtalk');
 
 class LocalUser {

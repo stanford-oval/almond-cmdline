@@ -6,16 +6,16 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "almond": "github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent",
+    "almond-dialog-agent": "^1.0.0",
     "cvc4": "^0.1.1",
     "dbus-native": "github:gcampax/node-dbus",
     "gm": "~1.21.1",
     "node-gettext": "^2.0.0",
     "posix": "^4.1.1",
     "q": "^1.5.0",
-    "thingengine-core": "github:Stanford-Mobisocial-IoT-Lab/thingengine-core",
-    "thingpedia": "github:Stanford-Mobisocial-IoT-Lab/thingpedia-api",
-    "thingpedia-discovery": "github:Stanford-Mobisocial-IoT-Lab/thingpedia-discovery",
-    "thingtalk": "github:Stanford-Mobisocial-IoT-Lab/ThingTalk"
+    "thingengine-core": "^1.0.0",
+    "thingpedia": "^2.2.1",
+    "thingpedia-discovery": "^1.0.0",
+    "thingtalk": "^1.0.0"
   }
 }

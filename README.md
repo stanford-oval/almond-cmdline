@@ -12,16 +12,23 @@ Almond is part of Open Thing Platform, a research project led by
 prof. Monica Lam, from Stanford University.  You can find more
 information at <https://thingpedia.stanford.edu/about>.
 
-## Installation
+## Installing from the node package manager
+
+```npm install -g almond-cmdline```
+
+You can then run it with `almond` from the command line.
+
+## Installing from source
 
 The code depends on nodejs (>= 6.10), cvc4 (any version, although >= 1.5 is recommended).
 Acquire the dependencies with:
 
 ```git submodule update --init --recursive```
 
-Then you can install the dependencies with a standard `npm install`.
+Then you can install the dependencies with a standard `npm install`, or with `yarn install`.
 
-**NOTE**: npm >= 5 is known NOT to work. For best results, use the npm that came with node 6.10 LTS.
+**NOTE**: npm >= 5 is known NOT to work. For best results, use the npm that came with node 6.10 LTS,
+or use yarn.
 
 ## Usage
 

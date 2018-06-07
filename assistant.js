@@ -117,6 +117,7 @@ module.exports = class Assistant {
         console.log('\\d list : list devices');
         console.log('\\d start-oauth <kind> : start oauth');
         console.log('\\d complete-oauth <url> : finish oauth');
+        console.log('\\d update <kind> : update devices');
         console.log('\\p list : list permissions');
         console.log('\\p revoke <uuid> : revoke permissions');
         console.log('\\= <pref> : show a preference value');
@@ -202,6 +203,8 @@ module.exports = class Assistant {
                 session: this._oauthSession
             };
             return this._engine.devices.factory.runOAuth2(this._oauthKind, req);
+        } else if (cmd === 'update' || cmd === 'upgrade') {
+            return this._engine.devices.updateDevicesOfKind(param);
         }
 
         return Promise.resolve();

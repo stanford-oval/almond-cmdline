@@ -18,7 +18,6 @@
     "q": "^1.5.0",
     "thingengine-core": "^1.0.0",
     "thingpedia": "^2.2.1",
-    "thingpedia-discovery": "^1.0.0",
     "thingtalk": "^1.0.0"
   }
 }

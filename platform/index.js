@@ -18,7 +18,7 @@ const path = require('path');
 const child_process = require('child_process');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
-const CVC4Solver = require('cvc4');
+const CVC4Solver = require('smtlib').LocalCVC4Solver;
 
 const prefs = require('thingengine-core/lib/util/prefs');
 

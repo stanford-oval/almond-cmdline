@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "almond-dialog-agent": "^1.0.0",
-    "cvc4": "^0.1.1",
-    "dbus-native": "github:gcampax/node-dbus",
+    "dbus-native": "^0.4.0",
     "gm": "~1.21.1",
     "node-gettext": "^2.0.0",
     "posix": "^4.1.1",
     "q": "^1.5.0",
+    "smtlib": "^0.1.1",
     "thingengine-core": "^1.0.0",
     "thingpedia": "^2.2.1",
     "thingtalk": "^1.0.0"

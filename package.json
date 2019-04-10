@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CLI Almond Virtual Assistant",
   "author": "Stanford University Mobile and Social Computing Lab",
-  "repository": "https://github.com/Stanford-Mobisocial-IoT-Lab/almond-cmdline",
+  "repository": "https://github.com/stanford-oval/almond-cmdline",
   "license": "GPL-3.0+",
   "bin": {
     "almond": "./main.js"

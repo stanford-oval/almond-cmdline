@@ -1,6 +1,6 @@
 {
   "name": "almond-cmdline",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CLI Almond Virtual Assistant",
   "author": "Stanford University Mobile and Social Computing Lab",
   "repository": "https://github.com/stanford-oval/almond-cmdline",

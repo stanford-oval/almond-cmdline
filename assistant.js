@@ -45,6 +45,10 @@ class CommandLineDelegate {
         console.log('>> rdl: ' + rdl.displayTitle + ' ' + (rdl.callback || rdl.webCallback));
     }
 
+    sendResult(message) {
+        console.log('>> ' + message.toLocaleString());
+    }
+
     sendChoice(idx, what, title, text) {
         console.log('>> choice ' + idx + ': ' + title);
     }

@@ -141,6 +141,10 @@ class Platform {
         return this._timezone;
     }
 
+    getPlatformDevice() {
+        return null;
+    }
+
     // Check if we need to load and run the given thingengine-module on
     // this platform
     // (eg we don't need discovery on the cloud, and we don't need graphdb,

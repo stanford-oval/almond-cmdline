@@ -126,7 +126,6 @@ module.exports = class Assistant {
         console.log('\\p revoke <uuid> : revoke permissions');
         console.log('\\= <pref> : show a preference value');
         console.log('\\= <pref> <value> : set a preference value');
-        console.log('\\l: test the log system');
         console.log('\\? or \\h : show this help');
         console.log('Any other command is interpreted as an English sentence and sent to Almond');
     }
@@ -192,46 +191,17 @@ module.exports = class Assistant {
             });
         } else if (cmd === 'start-oauth' || cmd === 'start-oauth2') {
             this._oauthKind = param;
-            return this._engine.devices.factory.runOAuth2(param, null).then(([redirect, session]) => {
+            return this._engine.devices.addFromOAuth(param).then(([redirect, session]) => {
                 this._oauthSession = session;
                 console.log(redirect);
             });
         } else if (cmd === 'complete-oauth' || cmd === 'complete-oauth2') {
-            let req = {
-                httpVersion: '1.0',
-                headers: [],
-                rawHeaders: [],
-                method: 'GET',
-                url: param,
-                query: Url.parse(param, true).query,
-                session: this._oauthSession
-            };
-            return this._engine.devices.factory.runOAuth2(this._oauthKind, req);
+            return this._engine.devices.completeOAuth(this._oauthKind, param, this._oauthSession);
         } else if (cmd === 'update' || cmd === 'upgrade') {
             return this._engine.devices.updateDevicesOfKind(param);
         }
 
         return Promise.resolve();
-    }
-
-    _testMemory() {
-        let sunny = ThingTalk.Ast.Value.String('Sun');
-        let filter = ThingTalk.Ast.BooleanExpression.Atom(ThingTalk.Ast.Filter('weather', '=', sunny));
-        let max = ThingTalk.Ast.Aggregation('max', 'wind_speed', null);
-        let argmax = ThingTalk.Ast.Aggregation('argmax', 'wind_speed', null);
-        let table = 'weatherapi_current';
-        let cols = ['location', 'weather', 'wind_speed'];
-        let version = null;
-        this._engine.memory.getAll(table, version);
-        this._engine.memory.get(table, version, cols, filter, null).then((res) => {
-            console.log(res);
-        });
-        this._engine.memory.get(table, version, cols, filter, max).then((res) => {
-            console.log(res);
-        });
-        this._engine.memory.get(table, version, cols, filter, argmax).then((res) => {
-            console.log(res);
-        });
     }
 
     interact() {
@@ -276,8 +246,6 @@ module.exports = class Assistant {
                     return this._runMessagingCommand(...line.substr(3).split(' '));
                 else if (line[1] === 'p')
                     return this._runPermissionCommand(...line.substr(3).split(' '));
-                else if (line[1] === 'l')
-                    return this._testMemory();
                 else if (line[1] === '=')
                     return this._runPrefCommand(...line.substr(3).split(' '));
                 else

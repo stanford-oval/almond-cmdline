@@ -12,6 +12,8 @@
 // cmdline platform
 
 const Tp = require('thingpedia');
+const ThingTalk = require('thingtalk');
+
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -20,6 +22,8 @@ const util = require('util');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
+
+const Config = require('../config');
 
 const _unzipApi = {
     unzip(zipPath, dir) {
@@ -90,6 +94,66 @@ function getFilesDir() {
         return path.resolve(getUserConfigDir(), 'almond-cmdline');
 }
 
+class CmdlineThingpediaClient extends Tp.HttpClient {
+    constructor(platform) {
+        super(platform, process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL);
+    }
+
+    async _getLocalDeviceManifest(manifestPath, deviceKind) {
+        const ourMetadata = (await util.promisify(fs.readFile)(manifestPath)).toString();
+        const ourParsed = ThingTalk.Grammar.parse(ourMetadata);
+        ourParsed.classes[0].annotations.version = new ThingTalk.Ast.Value.Number(-1);
+
+        if (!ourParsed.classes[0].is_abstract) {
+            try {
+                // ourMetadata might lack some of the fields that are in the
+                // real metadata, such as api keys and OAuth secrets
+                // for that reason we fetch the metadata for thingpedia as well,
+                // and fill in any missing parameter
+                const officialMetadata = await super.getDeviceCode(deviceKind);
+                const officialParsed = ThingTalk.Grammar.parse(officialMetadata);
+
+                const ourConfig = ourParsed.classes[0].config;
+
+                ourConfig.in_params = ourConfig.in_params.filter((ip) => !ip.value.isUndefined);
+                const ourConfigParams = new Set(ourConfig.in_params.map((ip) => ip.name));
+                const officialConfig = officialParsed.classes[0].config;
+
+                for (let in_param of officialConfig.in_params) {
+                    if (!ourConfigParams.has(in_param.name))
+                        ourConfig.in_params.push(in_param);
+                }
+
+            } catch(e) {
+                if (e.code !== 404)
+                    throw e;
+            }
+        }
+
+        return ourParsed.classes[0];
+    }
+
+    async getDeviceCode(id) {
+        const prefs = this.platform.getSharedPreferences();
+        const developerDir = prefs.get('developer-dir');
+
+        const localPath = path.resolve(developerDir, id, 'manifest.tt');
+        if (developerDir && await util.promisify(fs.exists)(localPath))
+            return (await this._getLocalDeviceManifest(localPath, id)).prettyprint();
+        else
+            return super.getDeviceCode(id);
+    }
+
+    async getModuleLocation(id) {
+        const prefs = this.platform.getSharedPreferences();
+        const developerDir = prefs.get('developer-dir');
+        if (developerDir && await util.promisify(fs.exists)(path.resolve(developerDir, id)))
+            return 'file://' + path.resolve(developerDir, id);
+        else
+            return super.getModuleLocation(id);
+    }
+}
+
 class Platform extends Tp.BasePlatform {
     // Initialize the platform code
     // Will be called before instantiating the engine
@@ -112,6 +176,8 @@ class Platform extends Tp.BasePlatform {
         this._prefs = new Tp.Helpers.FilePreferences(this._filesDir + '/prefs.db');
         this._cacheDir = getUserCacheDir() + '/almond-cmdline';
         safeMkdirSync(this._cacheDir);
+
+        this._tpClient = new CmdlineThingpediaClient(this);
 
         this._dbusSession = null; //DBus.sessionBus();
         if (process.env.DBUS_SYSTEM_BUS_ADDRESS || fs.existsSync('/var/run/dbus/system_bus_socket'))
@@ -174,6 +240,10 @@ class Platform extends Tp.BasePlatform {
 
         case 'bluetooth':
             return this._dbusSystem !== null;
+
+        case 'thingpedia-client':
+            return true;
+
 /*
         // We can use the phone capabilities
         case 'notify':
@@ -214,6 +284,9 @@ class Platform extends Tp.BasePlatform {
         case 'code-download':
             // We have the support to download code
             return _unzipApi;
+
+        case 'thingpedia-client':
+            return this._tpClient;
 
         case 'dbus-session':
             return this._dbusSession;

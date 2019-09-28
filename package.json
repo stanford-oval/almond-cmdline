@@ -8,6 +8,9 @@
   "bin": {
     "almond": "./main.js"
   },
+  "scripts": {
+    "lint": "eslint ./main.js ./assistant.js ./config.js platform/"
+  },
   "resolutions": {},
   "dependencies": {
     "almond-dialog-agent": "~1.6.1",
@@ -19,5 +22,8 @@
     "thingengine-core": "~1.6.0",
     "thingpedia": "~2.5.1",
     "thingtalk": "~1.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0"
   }
 }

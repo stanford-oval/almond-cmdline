@@ -1,3 +1,9 @@
+1.6.2
+=====
+
+* Removed dependency on posix library, which is incompatible with node 12
+* Updated dependencies
+
 1.6.1
 =====
 

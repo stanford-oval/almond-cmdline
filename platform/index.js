@@ -11,24 +11,21 @@
 
 // cmdline platform
 
-const Q = require('q');
+const Tp = require('thingpedia');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const child_process = require('child_process');
+const util = require('util');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
 
-const prefs = require('thingengine-core/lib/util/prefs');
-
-var _unzipApi = {
+const _unzipApi = {
     unzip(zipPath, dir) {
         var args = ['-uo', zipPath, '-d', dir];
-        return Q.nfcall(child_process.execFile, '/usr/bin/unzip', args, {
-            maxBuffer: 10 * 1024 * 1024 }).then(function(zipResult) {
-            var stdout = zipResult[0];
-            var stderr = zipResult[1];
+        return util.promisify(child_process.execFile)('/usr/bin/unzip', args, {
+            maxBuffer: 10 * 1024 * 1024 }).then(({ stdout, stderr }) => {
             console.log('stdout', stdout);
             console.log('stderr', stderr);
         });
@@ -71,7 +68,7 @@ function safeMkdirSync(dir) {
     try {
         fs.mkdirSync(dir);
     } catch(e) {
-        if (e.code != 'EEXIST')
+        if (e.code !== 'EEXIST')
             throw e;
     }
 }
@@ -93,10 +90,12 @@ function getFilesDir() {
         return path.resolve(getUserConfigDir(), 'almond-cmdline');
 }
 
-class Platform {
+class Platform extends Tp.BasePlatform {
     // Initialize the platform code
     // Will be called before instantiating the engine
     constructor(homedir) {
+        super();
+
         homedir = homedir || getFilesDir();
         this._assistant = null;
 
@@ -106,16 +105,19 @@ class Platform {
         safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
         // normalize this._locale to something that Intl can grok
-        this._locale = this._locale.split(/[-_\.@]/).slice(0,2).join('-');
+        this._locale = this._locale.split(/[-_.@]/).slice(0,2).join('-');
 
         this._gettext.setLocale(this._locale);
         this._timezone = process.env.TZ;
-        this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
+        this._prefs = new Tp.Helpers.FilePreferences(this._filesDir + '/prefs.db');
         this._cacheDir = getUserCacheDir() + '/almond-cmdline';
         safeMkdirSync(this._cacheDir);
 
-        this._dbusSession = DBus.sessionBus();
-        this._dbusSystem = DBus.systemBus();
+        this._dbusSession = null; //DBus.sessionBus();
+        if (process.env.DBUS_SYSTEM_BUS_ADDRESS || fs.existsSync('/var/run/dbus/system_bus_socket'))
+            this._dbusSystem = DBus.systemBus();
+        else
+            this._dbusSystem = null;
         this._btApi = null;
 
         this._origin = null;
@@ -126,7 +128,7 @@ class Platform {
     }
 
     get type() {
-        return 'server';
+        return 'cmdline';
     }
 
     get encoding() {
@@ -166,11 +168,12 @@ class Platform {
             return true;
 
         case 'dbus-session':
+            return this._dbusSession !== null;
         case 'dbus-system':
-            return true;
+            return this._dbusSystem !== null;
 
         case 'bluetooth':
-            return true;
+            return this._dbusSystem !== null;
 /*
         // We can use the phone capabilities
         case 'notify':
@@ -217,10 +220,11 @@ class Platform {
         case 'dbus-system':
             return this._dbusSystem;
         case 'bluetooth':
+            if (this._dbusSystem === null)
+                return null;
             if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);
             return this._btApi;
-
         case 'smt-solver':
             return CVC4Solver;
 
@@ -327,7 +331,6 @@ class Platform {
     // Returns true if the change actually happened
     setDeveloperKey(key) {
         return this._prefs.set('developer-key', key);
-        return true;
     }
 
     getOrigin() {
@@ -354,10 +357,10 @@ class Platform {
         this._prefs.set('auth-token', authToken);
         return true;
     }
-};
+}
 
 module.exports = {
     newInstance(homedir) {
-        return new Platform(homedir)
+        return new Platform(homedir);
     }
-}
+};

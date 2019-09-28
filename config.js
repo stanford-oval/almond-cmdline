@@ -7,6 +7,7 @@
 // Author: Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
 module.exports.THINGPEDIA_URL = 'https://thingpedia.stanford.edu/thingpedia';
 module.exports.SEMPRE_URL = 'https://almond-nl.stanford.edu';

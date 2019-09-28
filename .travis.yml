@@ -1,0 +1,30 @@
+branches:
+  except:
+  - "/^wip/"
+language: node_js
+node_js:
+- '8'
+- '10'
+- '12'
+env:
+  global:
+  - TZ="America/Los_Angeles"
+  - COVERALLS_PARALLEL=true
+before_install:
+- mkdir cvc4/
+- wget https://almond-static.stanford.edu/test-data/cvc4-1.6-x86_64-linux-opt -O cvc4/cvc4
+- chmod +x cvc4/cvc4
+- mkdir -p ~/.cache
+- mkdir -p ~/.config
+- export PATH="`pwd`/cvc4:$PATH"
+- yarn global add greenkeeper-lockfile@1
+before_script:
+- greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
+script:
+- yarn lint
+# FIXME we don't have tests yet
+#- yarn test
+#after_success: yarn run coverage
+#notifications:
+#  webhooks: https://coveralls.io/webhook

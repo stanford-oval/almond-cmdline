@@ -10,7 +10,6 @@
 "use strict";
 
 const readline = require('readline');
-const posix = require('posix');
 const Url = require('url');
 
 const Config = require('./config');
@@ -20,11 +19,9 @@ const ThingTalk = require('thingtalk');
 
 class LocalUser {
     constructor() {
-        var pwnam = posix.getpwnam(process.getuid());
-
         this.id = process.getuid();
-        this.account = pwnam.name;
-        this.name = pwnam.gecos;
+        this.account = 'local:'+this.id;
+        this.name = 'Local User';
     }
 }
 

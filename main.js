@@ -14,14 +14,12 @@ const Q = require('q');
 Q.longStackSupport = true;
 process.on('unhandledRejection', (up) => { throw up; });
 
-const Config = require('./config');
-
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
 
 function main() {
     let platform = require('./platform').newInstance();
-    let engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
+    let engine = new Engine(platform);
 
     let _ad = new AssistantDispatcher(engine);
     platform.setAssistant(_ad);

@@ -23,6 +23,8 @@ const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
 
+const { makeDeviceFactory } = require('./device_factories');
+
 const Config = require('../config');
 
 const _unzipApi = {
@@ -106,14 +108,16 @@ class CmdlineThingpediaClient extends Tp.HttpClient {
 
         if (!ourParsed.classes[0].is_abstract) {
             try {
+                const ourConfig = ourParsed.classes[0].config;
+                if (!ourConfig.in_params.some((v) => v.value.isUndefined))
+                    return ourParsed.classes[0];
+
                 // ourMetadata might lack some of the fields that are in the
                 // real metadata, such as api keys and OAuth secrets
                 // for that reason we fetch the metadata for thingpedia as well,
                 // and fill in any missing parameter
                 const officialMetadata = await super.getDeviceCode(deviceKind);
                 const officialParsed = ThingTalk.Grammar.parse(officialMetadata);
-
-                const ourConfig = ourParsed.classes[0].config;
 
                 ourConfig.in_params = ourConfig.in_params.filter((ip) => !ip.value.isUndefined);
                 const ourConfigParams = new Set(ourConfig.in_params.map((ip) => ip.name));
@@ -151,6 +155,63 @@ class CmdlineThingpediaClient extends Tp.HttpClient {
             return 'file://' + path.resolve(developerDir, id);
         else
             return super.getModuleLocation(id);
+    }
+
+    async getSchemas(kinds, withMetadata) {
+        const prefs = this.platform.getSharedPreferences();
+        const developerDir = prefs.get('developer-dir');
+        if (!developerDir)
+            return super.getSchema(kinds, withMetadata);
+
+        const forward = [];
+        const handled = [];
+
+        for (let kind of kinds) {
+            const localPath = path.resolve(developerDir, kind, 'manifest.tt');
+            if (await util.promisify(fs.exists)(localPath))
+                handled.push(await this._getLocalDeviceManifest(localPath, kind));
+            else
+                forward.push(kind);
+        }
+
+        let code = '';
+        if (handled.length > 0)
+            code += new ThingTalk.Ast.Input.Library(handled, []).prettyprint();
+        if (forward.length > 0)
+            code += await super.getSchema(kinds, withMetadata);
+
+        return code;
+    }
+
+    async _getLocalFactory(localPath, kind) {
+        const classDef = await this._getLocalDeviceManifest(localPath, kind);
+        return makeDeviceFactory(classDef, {
+            category: 'data', // doesn't matter too much
+            primary_kind: kind,
+            name: classDef.metadata.thingpedia_name || classDef.metadata.name || kind,
+        });
+    }
+
+    async getDeviceSetup(kinds) {
+        const prefs = this.platform.getSharedPreferences();
+        const developerDir = prefs.get('developer-dir');
+        if (!developerDir)
+            return super.getDeviceSetup(kinds);
+
+        const forward = [];
+        const handled = {};
+        for (let kind of kinds) {
+            const localPath = path.resolve(developerDir, kind, 'manifest.tt');
+            if (await util.promisify(fs.exists)(localPath))
+                handled[kind] = await this._getLocalFactory(localPath, kind);
+            else
+                forward.push(kind);
+        }
+
+        if (forward.length > 0)
+            handled.assign(await super.getDeviceSetup(forward));
+
+        return handled;
     }
 }
 

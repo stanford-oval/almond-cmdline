@@ -23,8 +23,6 @@ const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
 
-const { makeDeviceFactory } = require('./device_factories');
-
 const Config = require('../config');
 
 const _unzipApi = {
@@ -161,7 +159,7 @@ class CmdlineThingpediaClient extends Tp.HttpClient {
         const prefs = this.platform.getSharedPreferences();
         const developerDir = prefs.get('developer-dir');
         if (!developerDir)
-            return super.getSchema(kinds, withMetadata);
+            return super.getSchemas(kinds, withMetadata);
 
         const forward = [];
         const handled = [];
@@ -178,16 +176,15 @@ class CmdlineThingpediaClient extends Tp.HttpClient {
         if (handled.length > 0)
             code += new ThingTalk.Ast.Input.Library(handled, []).prettyprint();
         if (forward.length > 0)
-            code += await super.getSchema(kinds, withMetadata);
+            code += await super.getSchemas(kinds, withMetadata);
 
         return code;
     }
 
     async _getLocalFactory(localPath, kind) {
         const classDef = await this._getLocalDeviceManifest(localPath, kind);
-        return makeDeviceFactory(classDef, {
+        return Tp.DeviceConfigUtils.makeDeviceFactory(classDef, {
             category: 'data', // doesn't matter too much
-            primary_kind: kind,
             name: classDef.metadata.thingpedia_name || classDef.metadata.name || kind,
         });
     }

@@ -61,16 +61,16 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-almond-dialog-agent@~1.7.0-beta.1:
-  version "1.7.0-beta.2"
-  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.0-beta.2.tgz#92472c7c132e551b3193ab2703d92c907b39d185"
-  integrity sha512-adU7Lem34CwL+xwJFJjfwccUqDeQkK4xp+r7CxfMLdx5lfkYfMa6QMzz5Y1Jk0hFO5BQxwr7KYYJCYvObLQB3A==
+almond-dialog-agent@~1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.0.tgz#4646a2e8f0db3d9e30bc2027cff8abe6153c9e7d"
+  integrity sha512-CWBQn3UIDmyfRSOkPHv3mbax4QqenYlYFBatZLyadcUPCom3fpfbtNvcs7aRB1Kxao+VOfec+f41BYvVflmMNA==
   dependencies:
-    adt "~0.7.2"
+    adt "^0.7.2"
     consumer-queue "^1.0.0"
     qs "^6.7.0"
-    thingpedia "~2.6.0-alpha.1"
-    thingtalk "~1.9.0-beta.1"
+    thingpedia "~2.6.0"
+    thingtalk "~1.9.0"
     uuid "^3.1.0"
 
 another-json@^0.2.0:
@@ -905,7 +905,7 @@ inquirer@^7.0.0:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-ip@^1.0.1, ip@^1.1.5, ip@~1.1.0:
+ip@^1.0.1, ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
   integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
@@ -1281,7 +1281,7 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-oauth@~0.9.14:
+oauth@^0.9.14:
   version "0.9.15"
   resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
   integrity sha1-vR/vr2hslrdUda7VGWQS/2DPucE=
@@ -1793,10 +1793,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thingengine-core@~1.7.0-beta.1:
-  version "1.7.0-beta.1"
-  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.7.0-beta.1.tgz#97ba9e2431b8847e3af6b823698623a2ef429a60"
-  integrity sha512-L33u9BcszjztCK3QHzZziTVCstkBLH8jOMDqHbXTv4nC62wSssx3tuAXeiyjt6N7Sg/k4NiNlEqbmE90inO7Ag==
+thingengine-core@~1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.7.0.tgz#bb200247c20440c3606fa2677dabefa66c5d5c75"
+  integrity sha512-Qh42GsddTmMduineiliHPHfT8/xOerr7FUx4r9IfEcibu/QUxS86nfwJsO3o2YuOjrKi/ffHXzxqf2RbRUWHKA==
   dependencies:
     adt "^0.7.2"
     consumer-queue "^1.0.1"
@@ -1805,9 +1805,9 @@ thingengine-core@~1.7.0-beta.1:
     matrix-js-sdk "0.9.2"
     q "^1.5.0"
     sqlite3 "^4.0.2"
-    thingpedia "~2.6.0-alpha.1"
+    thingpedia "~2.6.0"
     thingpedia-discovery "^1.0.0"
-    thingtalk "~1.9.0-alpha.4"
+    thingtalk "~1.9.0"
     uuid "^3.1.0"
     ws "^7.0.0"
 
@@ -1818,22 +1818,22 @@ thingpedia-discovery@^1.0.0:
   dependencies:
     node-ssdp "^2.7.2"
 
-thingpedia@~2.6.0-alpha.1:
-  version "2.6.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.6.0-alpha.2.tgz#c54636c2c5ca96504eb9bcd489dc6f66996f4371"
-  integrity sha512-2E8Du8Ev6XU0p9vZljmalAsLnE5mvMHoOc7WNMSAEap8aW1sHe+sxwvkuHnu3z14VlCeMFNi7iZ3hwlW/44Fdg==
+thingpedia@~2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.6.0.tgz#b948c22265d65ebd655a3f1c8d3401ef351bcce8"
+  integrity sha512-nICn8qQTl52wuMMehuYqjW51Q0aFAZKjfoKzu32D0KtHl85BNLb8TI39vI5qHY5iF/YIwYNtPlfrcZvCsAAg2g==
   dependencies:
     feedparser "^2.2.9"
-    ip "~1.1.0"
-    oauth "~0.9.14"
-    thingtalk "~1.9.0-alpha.1"
+    ip "^1.1.0"
+    oauth "^0.9.14"
+    thingtalk "~1.9.0"
     tmp "^0.1.0"
     xml2js "^0.4.17"
 
-thingtalk@~1.9.0-alpha.1, thingtalk@~1.9.0-alpha.4, thingtalk@~1.9.0-beta.1:
-  version "1.9.0-beta.1"
-  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.9.0-beta.1.tgz#f7d5fbd457f199814cf33cb8732f51640a39b2ab"
-  integrity sha512-1idMnmj7ecyfNPjpr/5JDTdwnMsfevGDp8smXac/z4SKUvlgUa4W60AnyKN4aKxMmnm2nvkteWrs+EupnYrOww==
+thingtalk@~1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.9.0.tgz#1caee484a69544d79b9f9f21af9e93c43c742284"
+  integrity sha512-7WoExlQt6NP/9SN5ViHBO2Qw8/zLSyOGk28TRT4u9igkb/uCKs7BMEdFgUEIBODeCfKBFQ0m3UsPsDZQrKBVOQ==
   dependencies:
     adt "~0.7.2"
     byline "^5.0.0"

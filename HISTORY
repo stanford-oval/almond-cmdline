@@ -1,3 +1,11 @@
+1.7.0
+=====
+
+* The Almond platform was updated to 1.7. This brings a host of
+  new features, including better and more robust natural language.
+* Developer mode now supports loading devices that are not in
+  Thingpedia at all.
+
 1.6.3
 =====
 

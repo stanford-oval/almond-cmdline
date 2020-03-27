@@ -4,3 +4,7 @@
 home/
 home-*/
 node_modules/
+
+network.log
+test.js
+yarn-error.log

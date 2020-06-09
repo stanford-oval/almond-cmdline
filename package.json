@@ -16,7 +16,7 @@
     "almond-dialog-agent": "~1.8.0",
     "dbus-native": "^0.4.0",
     "gm": "^1.23.1",
-    "node-gettext": "^2.0.0",
+    "node-gettext": "^3.0.0",
     "q": "^1.5.0",
     "smtlib": "^0.1.1",
     "thingengine-core": "~1.8.0",

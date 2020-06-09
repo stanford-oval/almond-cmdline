@@ -3,9 +3,7 @@ branches:
   - "/^wip/"
 language: node_js
 node_js:
-- '8'
 - '10'
-- '12'
 env:
   global:
   - TZ="America/Los_Angeles"

@@ -21,7 +21,7 @@
     "smtlib": "^0.1.1",
     "thingengine-core": "~1.8.0",
     "thingpedia": "~2.7.0",
-    "thingtalk": "~1.10.0"
+    "thingtalk": "~1.11.0"
   },
   "devDependencies": {
     "eslint": "^7.2.0"

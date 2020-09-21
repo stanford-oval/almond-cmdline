@@ -1661,7 +1661,7 @@ semver@^5.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
-semver@^7.2.1:
+semver@^7.2.1, semver@^7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938"
   integrity sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
@@ -1762,6 +1762,13 @@ string-interp@^0.1.0:
   integrity sha512-IpdjjxHgiO+AKlhmeUSl4U/M/vLf/Qy5t5MwG/Ij8+l8yNBemLgjgtn13WCKaw78FrKi1DDKrs0gnDJnMiUgBw==
   dependencies:
     thingtalk-units "^0.1.0"
+
+string-interp@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/string-interp/-/string-interp-0.3.2.tgz#d713209fc05bcd340c96a4d428e4ede7889eb29b"
+  integrity sha512-HAFXnMl8hO4nqfi1whSVSYC7UAAYx2DqyI4yq9gtGVX4Nk6RS1M0gGhpGIHVznMvM6kxIJqADPswvRGdlIhGYA==
+  dependencies:
+    thingtalk-units "^0.2.0"
 
 string-width@^1.0.1:
   version "1.0.2"
@@ -1962,6 +1969,11 @@ thingtalk-units@^0.1.0:
   resolved "https://registry.yarnpkg.com/thingtalk-units/-/thingtalk-units-0.1.0.tgz#c3b69bc0c7d0a3ba5bfad3ccf02dc1c291d1abc8"
   integrity sha512-rV5/jZw9fBk3OgYi/HrA1LsTmD5w0gYDlsc1US3/ePR5szaUxwMUtN8UAPYaUorOiW0Qcjm1plvssOC97EkedQ==
 
+thingtalk-units@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/thingtalk-units/-/thingtalk-units-0.2.0.tgz#b14cd56d5a2178b24c81d42c7174c8d10f1110b9"
+  integrity sha512-t2KE6EVVOxiD6qKREMxkB+sU0xb1elRWrxwyiJwA/a9LHurU5chZSGjkFdjDrtTypyfIV36yvhXQBQLrmwhFgQ==
+
 thingtalk@~1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.10.0.tgz#dd80e80ef6fccf9dd878aa1e7c3f3abad7add700"
@@ -1973,6 +1985,19 @@ thingtalk@~1.10.0:
     smtlib "^0.1.1"
     string-interp "^0.1.0"
     thingtalk-units "^0.1.0"
+
+thingtalk@~1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.11.0.tgz#c8811d7d0b1a3fc640014ec03fbef1d2ce12df51"
+  integrity sha512-diCtRRnPgYdyW5iMXpfhqhfn7QYVcVbwxw6rF9z17ZmTmZc3jehJt2sFMzwu8npAqpVXT5xJCbLgeZZ56x37cQ==
+  dependencies:
+    adt "~0.7.2"
+    byline "^5.0.0"
+    consumer-queue "^1.0.0"
+    semver "^7.3.2"
+    smtlib "^0.1.1"
+    string-interp "^0.3.1"
+    thingtalk-units "^0.2.0"
 
 through@2, through@^2.3.8, through@~2.3, through@~2.3.4:
   version "2.3.8"
